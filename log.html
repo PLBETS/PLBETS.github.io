@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLBETS | Log</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f0f1e; color: #eee; line-height: 1.6; }
+        nav { background: #16213e; padding: 15px 20px; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid #e94560; }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .logo { font-size: 1.5em; font-weight: bold; color: #16c79a; }
+        .logo a { color: #16c79a; text-decoration: none; }
+        .nav-links { display: flex; gap: 25px; flex-wrap: wrap; }
+        .nav-links a { color: #a0a0a0; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #16c79a; }
+        .duel-bar { background: linear-gradient(90deg, #e94560 0%, #ff6b6b 100%); padding: 12px 20px; text-align: center; font-weight: 500; }
+        .duel-bar a { color: #fff; text-decoration: none; font-weight: bold; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #16c79a; text-align: center; margin: 30px 0 10px; font-size: 2.5em; }
+        .subtitle { text-align: center; color: #a0a0a0; margin-bottom: 30px; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 30px 0; }
+        .stat-box { background: #16213e; padding: 20px; border-radius: 10px; text-align: center; }
+        .stat-number { font-size: 2em; color: #16c79a; font-weight: bold; }
+        .stat-label { color: #888; font-size: 0.9em; }
+        .bet { background: #16213e; padding: 20px; margin: 15px 0; border-radius: 10px; border-left: 4px solid #16c79a; }
+        .bet.loss { border-left-color: #e94560; }
+        .date { color: #888; font-size: 0.85em; }
+        .match { font-size: 1.3em; font-weight: bold; margin: 10px 0; color: #fff; }
+        .analysis { color: #bbb; margin: 10px 0; line-height: 1.5; }
+        .odds-line { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; flex-wrap: wrap; gap: 10px; }
+        .odds { color: #16c79a; font-weight: bold; font-size: 1.1em; }
+        .result { font-weight: bold; padding: 5px 10px; border-radius: 5px; font-size: 0.9em; }
+        .win { background: rgba(22, 199, 154, 0.2); color: #16c79a; }
+        .loss { background: rgba(233, 69, 96, 0.2); color: #e94560; }
+        footer { text-align: center; padding: 40px 20px; color: #666; border-top: 1px solid #333; margin-top: 40px; }
+        footer a { color: #e94560; }
+        @media (max-width: 600px) { .nav-links { gap: 15px; font-size: 0.9em; } h1 { font-size: 1.8em; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo"><a href="index.html">⚽ PLBETS</a></div>
+            <div class="nav-links">
+                <a href="index.html">Premier League</a>
+                <a href="cl.html">Champions League</a>
+                <a href="el.html">Europa League</a>
+                <a href="log.html" class="active">Log</a>
+                <a href="duel.html">Best Odds</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="duel-bar">
+        🚀 <a href="duel.html">Best Odds at Duel.com</a> — Up to 20% higher payouts
+    </div>
+    
+    <div class="container">
+        <h1>Betting Log</h1>
+        <p class="subtitle">Complete track record - every bet since 2025</p>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number">+300u</div>
+                <div class="stat-label">All Time</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">68%</div>
+                <div class="stat-label">Win Rate</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">+47u</div>
+                <div class="stat-label">This Month</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">23</div>
+                <div class="stat-label">Bets Logged</div>
+            </div>
+        </div>
+        
+        <!-- Vinnande bets -->
+        <div class="bet">
+            <div class="date">April 14, 2026</div>
+            <div class="match">Sunderland vs Tottenham</div>
+            <div class="analysis">
+                Spurs 100+ days without a win. Market still prices them as favorites away from home.
+                Sunderland's home form criminally undervalued at 2.72.
+            </div>
+            <div class="odds-line">
+                <span class="odds">Sunderland @ 2.72</span>
+                <span class="result win">WIN +1.72u</span>
+            </div>
+        </div>
+        
+        <div class="bet">
+            <div class="date">April 10, 2026</div>
+            <div class="match">Everton vs Chelsea</div>
+            <div class="analysis">
+                Chelsea in freefall, Everton fighting for survival at home.
+                Contrarian value at 3.35 pays off again.
+            </div>
+            <div class="odds-line">
+                <span class="odds">Everton @ 3.35</span>
+                <span class="result win">WIN +2.35u</span>
+            </div>
+        </div>
+        
+        <!-- Förlorande bets -->
+        <div class="bet loss">
+            <div class="date">April 13, 2026</div>
+            <div class="match">Arsenal vs Fulham</div>
+            <div class="analysis">
+                Arsenal's poor form vs Fulham's stability. Value on the underdog at 5.00,
+                but Cottagers couldn't finish at Emirates.
+            </div>
+            <div class="odds-line">
+                <span class="odds">Fulham @ 5.00</span>
+                <span class="result loss">LOSS -1u</span>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>18+ | Gamble responsibly | Not financial advice</p>
+        <p>Track all bets at <a href="https://duel.com/ref=plbets" target="_blank">Duel.com</a></p>
+    </footer>
+</body>
+</html>
