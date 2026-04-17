@@ -38,7 +38,6 @@ nav {
 .nav-links {
     display: flex;
     gap: 25px;
-     padding-left: 20px;
 }
 
 .nav-links a {
@@ -49,6 +48,7 @@ nav {
     letter-spacing: 0.5px;
     transition: color 0.2s;
     white-space: nowrap;
+    margin-right: 20px;
 }
 
 .nav-links a:hover,
