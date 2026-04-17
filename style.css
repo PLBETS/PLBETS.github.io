@@ -21,7 +21,7 @@ nav {
     display: flex;
     justify-content: flex-start; /* Viktigt: inte space-between */
     align-items: center;
-    gap: 10px; /* Justera detta: 10px, 15px, 5px... */
+    gap: 15px; /* Justera detta: 10px, 15px, 5px... */
     padding-left: 20px;
 }
 
