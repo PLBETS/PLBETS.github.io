@@ -21,6 +21,7 @@ const teamLogos = {
     'Manchester United': 'https://resources.premierleague.com/premierleague/badges/t1.png',
     'Newcastle': 'https://resources.premierleague.com/premierleague/badges/t4.png',
     'Nottingham Forest': 'https://resources.premierleague.com/premierleague/badges/t17.png',
+    'Forest': 'https://resources.premierleague.com/premierleague/badges/t17.png',
     'Southampton': 'https://resources.premierleague.com/premierleague/badges/t20.png',
     'Spurs': 'https://resources.premierleague.com/premierleague/badges/t6.png',
     'Tottenham': 'https://resources.premierleague.com/premierleague/badges/t6.png',
@@ -71,6 +72,7 @@ const teamLogos = {
     'Sevilla': 'https://media.api-sports.io/football/teams/559.png',
     'Villarreal': 'https://media.api-sports.io/football/teams/533.png',
     'Real Sociedad': 'https://media.api-sports.io/football/teams/548.png',
+    'Bournemouth': 'https://resources.premierleague.com/premierleague/badges/t91.png',
     'Betis': 'https://media.api-sports.io/football/teams/543.png',
     'Valencia': 'https://media.api-sports.io/football/teams/532.png',
     'Celta Vigo': 'https://media.api-sports.io/football/teams/538.png',
@@ -79,6 +81,7 @@ const teamLogos = {
     'Bodo Glimt': 'https://media.api-sports.io/football/teams/327.png',
     'Molde': 'https://media.api-sports.io/football/teams/328.png',
     'Copenhagen': 'https://media.api-sports.io/football/teams/400.png'
+    
 };
 
 function getLogo(teamName) {
