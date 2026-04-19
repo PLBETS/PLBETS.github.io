@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PLBETS | Log</title>
+    <title>PLBETS | Bet Log</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -25,10 +25,53 @@
     </div>
     
     <div class="container">
-        <h1>BETTING LOG</h1>
-        <p class="subtitle">Complete track record</p>
+        <h1>BET LOG</h1>
+        <p class="subtitle">Complete history of all bets</p>
         
-        <div class="bets-grid" id="log-grid"></div>
+        <!-- STATS BAR -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-top" id="stat-total">0</div>
+                <div class="stat-bottom">BETS</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-top win" id="stat-wins">0</div>
+                <div class="stat-bottom">WINS</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-top" id="stat-pct">0%</div>
+                <div class="stat-bottom">WIN %</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-top" id="stat-units">0.00</div>
+                <div class="stat-bottom">UNITS</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-top" id="stat-roi">0%</div>
+                <div class="stat-bottom">ROI</div>
+            </div>
+        </div>
+        
+        <!-- SEARCH & SORT CONTROLS -->
+        <div class="log-controls">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Search team name...">
+            </div>
+            <div class="sort-box">
+                <select id="sort-select">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="odds-high">Highest Odds</option>
+                    <option value="odds-low">Lowest Odds</option>
+                </select>
+            </div>
+        </div>
+        <div class="results-count" id="results-count">Showing all Bets</div>
+        
+        <h2 style="color: #fff; font-size: 1.2em; margin: 20px 0 20px; letter-spacing: 1px;">BET HISTORY</h2>
+        <div class="bets-grid" id="log-grid">
+            <!-- Populated by JS -->
+        </div>
     </div>
     
     <footer>
@@ -38,9 +81,9 @@
             <a href="#">TikTok</a>
         </div>
         <p>18+ | Gamble responsibly | Not financial advice</p>
-        <p>Track all bets at <a href="https://duel.com/r/HarryBarri" target="_blank">Duel.com</a></p>
+        <p>This page contains affiliate links. I may receive commission if you sign up.</p>
     </footer>
     
-    <script src="script.js" defer></script>
+    <script src="betlog-stats.js"></script>
 </body>
 </html>
