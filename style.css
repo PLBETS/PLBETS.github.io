@@ -1,9 +1,3 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: #0a0a0a;
@@ -133,7 +127,7 @@ h1 {
 /* MATCH / LOGGOR */
 .match {
     display: flex;
-    justify-content: center;   /* Centrerar hela raden */
+    justify-content: center;
     align-items: center;
     gap: 10px;
     font-size: 0.9em;
@@ -151,13 +145,9 @@ h1 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    flex-shrink: 1;            /* Tillåter att långa namn krymper */
-    max-width: 45%;            /* Hindrar jättelånga namn från att ta över */
+    flex-shrink: 1;
+    max-width: 45%;
 }
-
-/* Ta BORT dessa helt: */
-/* .team-side:first-child { justify-content: flex-end; } */
-/* .team-side:last-child { justify-content: flex-start; } */
 
 .vs {
     color: #444;
@@ -165,6 +155,7 @@ h1 {
     font-weight: 500;
     flex-shrink: 0;
 }
+
 .team-logo {
     width: 20px;
     height: 20px;
@@ -286,77 +277,6 @@ footer a {
     text-decoration: none;
 }
 
-/* RESPONSIVT */
-@media (max-width: 1200px) {
-    .bets-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    .nav-links {
-        gap: 15px;
-    }
-    .nav-links a {
-        font-size: 0.75em;
-    }
-    .bets-grid {
-        grid-template-columns: 1fr;
-    }
-    .stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    h1 {
-        font-size: 1.4em;
-    }
-    .match {
-        font-size: 1em;
-    }
-}
-/* STATS BAR */
-.stats-bar {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-    margin: 25px 0 35px;
-    max-width: 700px;
-}
-
-.stat-item {
-    background: #111;
-    border: 1px solid #1a1a1a;
-    padding: 16px 10px;
-    text-align: center;
-}
-
-.stat-top {
-    font-size: 1.6em;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 4px;
-}
-
-.stat-top.win {
-    color: #22c55e;
-}
-
-.stat-top.loss {
-    color: #ef4444;
-}
-
-.stat-bottom {
-    color: #444;
-    font-size: 0.7em;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-@media (max-width: 768px) {
-    .stats-bar {
-        grid-template-columns: repeat(3, 1fr);
-        max-width: 100%;
-    }
-}
 /* STATS BAR */
 .stats-bar {
     display: grid;
@@ -462,23 +382,6 @@ footer a {
     letter-spacing: 1px;
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .stats-bar {
-        grid-template-columns: repeat(3, 1fr);
-        max-width: 100%;
-    }
-    
-    .log-controls {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .search-box,
-    .sort-box select {
-        width: 100%;
-    }
-}
 /* ABOUT PAGE */
 .about-hero {
     margin-bottom: 10px;
@@ -544,12 +447,134 @@ footer a {
     margin: 0;
 }
 
+/* RESPONSIVT */
+@media (max-width: 1200px) {
+    .bets-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
 @media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        height: auto;
+        padding: 12px 0;
+        gap: 10px;
+    }
+
+    .nav-links {
+        margin-left: 0;
+        gap: 14px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-links a {
+        font-size: 0.8em;
+    }
+
+    .duel-bar {
+        font-size: 0.78em;
+        padding: 8px 12px;
+    }
+
+    .container {
+        padding: 25px 12px;
+    }
+
+    h1 {
+        font-size: 1.4em;
+    }
+
+    .bets-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .bet-card {
+        padding: 14px;
+    }
+
+    .match {
+        font-size: 0.88em;
+        gap: 8px;
+    }
+
+    .team-logo {
+        width: 18px;
+        height: 18px;
+    }
+
+    .team-side {
+        max-width: 46%;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats-bar {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 100%;
+    }
+
+    .stat-top {
+        font-size: 1.4em;
+    }
+
     .about-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .about-hero h1 {
         font-size: 1.6em;
     }
+
+    .footer-social {
+        gap: 20px;
+    }
+
+    .log-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box,
+    .sort-box select {
+        width: 100%;
+    }
 }
+
+@media (max-width: 480px) {
+    .stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .match {
+        font-size: 0.82em;
+        gap: 6px;
+    }
+
+    .team-logo {
+        width: 16px;
+        height: 16px;
+    }
+
+    .team-side {
+        gap: 4px;
+        max-width: 48%;
+    }
+
+    .vs {
+        font-size: 0.7em;
+    }
+
+    .nav-links {
+        gap: 10px;
+    }
+
+    .nav-links a {
+        font-size: 0.75em;
+    }
+}
+
