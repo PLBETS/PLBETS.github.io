@@ -1,3 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: #0a0a0a;
@@ -280,7 +286,7 @@ footer a {
 /* STATS BAR */
 .stats-bar {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 12px;
     margin: 25px 0 35px;
     max-width: 700px;
@@ -578,3 +584,41 @@ footer a {
     }
 }
 
+
+/* LOADING SPINNER */
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 20px;
+    grid-column: 1 / -1;
+}
+
+.spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid #1a1a1a;
+    border-top-color: #ff4757;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* FADE IN */
+.fade-in {
+    animation: fadeIn 0.35s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

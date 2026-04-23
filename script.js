@@ -72,7 +72,6 @@ const teamLogos = {
     'Sevilla': 'https://media.api-sports.io/football/teams/559.png',
     'Villarreal': 'https://media.api-sports.io/football/teams/533.png',
     'Real Sociedad': 'https://media.api-sports.io/football/teams/548.png',
-    'Bournemouth': 'https://resources.premierleague.com/premierleague/badges/t91.png',
     'Betis': 'https://media.api-sports.io/football/teams/543.png',
     'Valencia': 'https://media.api-sports.io/football/teams/532.png',
     'Celta Vigo': 'https://media.api-sports.io/football/teams/538.png',
@@ -81,13 +80,12 @@ const teamLogos = {
     'Bodo Glimt': 'https://media.api-sports.io/football/teams/327.png',
     'Molde': 'https://media.api-sports.io/football/teams/328.png',
     'Copenhagen': 'https://media.api-sports.io/football/teams/400.png'
-    
 };
 
 function getLogo(teamName) {
     const normalized = teamName.trim();
     if (teamLogos[normalized]) return teamLogos[normalized];
-    
+
     for (const [key, url] of Object.entries(teamLogos)) {
         if (normalized.toLowerCase().includes(key.toLowerCase()) || 
             key.toLowerCase().includes(normalized.toLowerCase())) {
@@ -100,15 +98,15 @@ function getLogo(teamName) {
 function getMatchHTML(match) {
     const teams = match.split(' vs ');
     if (teams.length !== 2) return `<div class="match">${match}</div>`;
-    
+
     const home = teams[0].trim();
     const away = teams[1].trim();
     const homeLogo = getLogo(home);
     const awayLogo = getLogo(away);
-    
+
     const homeImg = homeLogo ? `<img src="${homeLogo}" class="team-logo" alt="" onerror="this.style.display='none'">` : '';
     const awayImg = awayLogo ? `<img src="${awayLogo}" class="team-logo" alt="" onerror="this.style.display='none'">` : '';
-    
+
     return `
         <div class="match">
             <span class="team-side">${homeImg} ${home}</span>
@@ -119,18 +117,19 @@ function getMatchHTML(match) {
 }
 
 function parseCSV(text) {
-    const lines = text.trim().split('\n').filter(line => line.trim() !== '');
+    const normalizedText = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    const lines = normalizedText.trim().split('\n').filter(line => line.trim() !== '');
     const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-    
+
     return lines.slice(1).map(line => {
         const obj = {};
         let current = '';
         let inQuotes = false;
         let colIndex = 0;
-        
+
         for (let i = 0; i < line.length; i++) {
             const char = line[i];
-            
+
             if (char === '"') {
                 inQuotes = !inQuotes;
             } else if (char === ',' && !inQuotes) {
@@ -141,7 +140,7 @@ function parseCSV(text) {
                 current += char;
             }
         }
-        
+
         obj[headers[colIndex]] = current.trim();
         return obj;
     }).filter(row => row.date && row.date.trim() !== '');
@@ -149,7 +148,7 @@ function parseCSV(text) {
 
 function createUpcomingCard(bet) {
     const oddsDisplay = bet.market ? bet.market + ' @ ' + bet.odds : bet.odds;
-    
+
     return `
         <div class="bet-card pending">
             <div class="date">${bet.date}</div>
@@ -166,7 +165,7 @@ function createUpcomingCard(bet) {
 function createHistoryCard(bet) {
     const resultClass = bet.results.toLowerCase();
     const oddsDisplay = bet.market ? bet.market + ' @ ' + bet.odds : bet.odds;
-    
+
     return `
         <div class="bet-card ${resultClass}">
             <div class="date">${bet.date}</div>
@@ -180,29 +179,53 @@ function createHistoryCard(bet) {
     `;
 }
 
+function setLoading(gridId) {
+    const grid = document.getElementById(gridId);
+    if (grid) {
+        grid.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
+    }
+}
+
+function applyFadeIn(gridId) {
+    const grid = document.getElementById(gridId);
+    if (grid) {
+        grid.classList.remove('fade-in');
+        void grid.offsetWidth; // trigger reflow
+        grid.classList.add('fade-in');
+    }
+}
+
 function loadBets() {
+    setLoading('pl-grid');
+    setLoading('cl-grid');
+    setLoading('el-grid');
+    setLoading('log-grid');
+
     fetch(BETS_URL + '?t=' + Date.now())
         .then(r => r.text())
         .then(text => {
             const bets = parseCSV(text);
-            
+
             const plGrid = document.getElementById('pl-grid');
             const clGrid = document.getElementById('cl-grid');
             const elGrid = document.getElementById('el-grid');
-            
+
             if (plGrid) {
                 const plBets = bets.filter(b => b.league.toUpperCase() === 'PL');
                 plGrid.innerHTML = plBets.length ? plBets.map(createUpcomingCard).join('') : '<p style="color:#555;text-align:center;padding:40px;">No upcoming PL bets</p>';
+                applyFadeIn('pl-grid');
             }
-            
+
             if (clGrid) {
                 const clBets = bets.filter(b => b.league.toUpperCase() === 'CL');
                 clGrid.innerHTML = clBets.length ? clBets.map(createUpcomingCard).join('') : '<p style="color:#555;text-align:center;padding:40px;">No upcoming CL bets</p>';
+                applyFadeIn('cl-grid');
             }
-            
+
             if (elGrid) {
                 const elBets = bets.filter(b => b.league.toUpperCase() === 'EL');
                 elGrid.innerHTML = elBets.length ? elBets.map(createUpcomingCard).join('') : '<p style="color:#555;text-align:center;padding:40px;">No upcoming EL bets</p>';
+                applyFadeIn('el-grid');
             }
         })
         .catch(err => console.error('Error loading bets.csv:', err));
@@ -212,10 +235,11 @@ function loadBets() {
         .then(text => {
             const bets = parseCSV(text);
             const logGrid = document.getElementById('log-grid');
-            
+
             if (logGrid) {
                 const sorted = bets.sort((a, b) => new Date(b.date) - new Date(a.date));
                 logGrid.innerHTML = sorted.length ? sorted.map(createHistoryCard).join('') : '<p style="color:#555;text-align:center;padding:40px;">No bets logged yet</p>';
+                applyFadeIn('log-grid');
             }
         })
         .catch(err => console.error('Error loading betlog.csv:', err));

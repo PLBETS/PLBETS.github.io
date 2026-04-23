@@ -112,17 +112,17 @@ function parseCSV(text) {
     const normalizedText = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
     const lines = normalizedText.trim().split('\n').filter(line => line.trim() !== '');
     if (lines.length === 0) return [];
-    
+
     const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
     const result = [];
-    
+
     for (let i = 1; i < lines.length; i++) {
         const line = lines[i];
         const obj = {};
         let current = '';
         let inQuotes = false;
         let colIndex = 0;
-        
+
         for (let j = 0; j < line.length; j++) {
             const char = line[j];
             if (char === '"') {
@@ -135,11 +135,11 @@ function parseCSV(text) {
                 current += char;
             }
         }
-        
+
         obj[headers[colIndex]] = current.trim();
         result.push(obj);
     }
-    
+
     return result.filter(row => row.date && row.date.trim() !== '');
 }
 
@@ -156,18 +156,34 @@ function filterBets(bets, searchTerm) {
 }
 
 function sortBets(bets, sortType) {
-    const sorted = [...bets];
+    let filtered = [...bets];
+
+    if (sortType.startsWith('league-')) {
+        const league = sortType.split('-')[1].toUpperCase();
+        filtered = filtered.filter(b => b.league && b.league.toUpperCase() === league);
+        return filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
+
     switch (sortType) {
         case 'newest':
-            return sorted.sort((a, b) => new Date(b.date) - new Date(a.date));
+            return filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
         case 'oldest':
-            return sorted.sort((a, b) => new Date(a.date) - new Date(b.date));
+            return filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
         case 'odds-high':
-            return sorted.sort((a, b) => parseFloat(b.odds) - parseFloat(a.odds));
+            return filtered.sort((a, b) => parseFloat(b.odds) - parseFloat(a.odds));
         case 'odds-low':
-            return sorted.sort((a, b) => parseFloat(a.odds) - parseFloat(b.odds));
+            return filtered.sort((a, b) => parseFloat(a.odds) - parseFloat(b.odds));
         default:
-            return sorted;
+            return filtered;
+    }
+}
+
+function applyFadeIn(gridId) {
+    const grid = document.getElementById(gridId);
+    if (grid) {
+        grid.classList.remove('fade-in');
+        void grid.offsetWidth;
+        grid.classList.add('fade-in');
     }
 }
 
@@ -177,30 +193,38 @@ function updateStats(bets) {
     const winPct = total > 0 ? ((wins / total) * 100).toFixed(1) : 0;
     const units = bets.reduce((sum, b) => sum + (parseFloat(b.units) || 0), 0);
     const roi = total > 0 ? ((units / total) * 100).toFixed(1) : 0;
-    
+
     const totalEl = document.getElementById('stat-total');
     const winsEl = document.getElementById('stat-wins');
     const pctEl = document.getElementById('stat-pct');
     const unitsEl = document.getElementById('stat-units');
     const roiEl = document.getElementById('stat-roi');
     const countEl = document.getElementById('results-count');
-    
+
     if (totalEl) totalEl.textContent = total;
     if (winsEl) winsEl.textContent = wins;
     if (pctEl) pctEl.textContent = winPct + '%';
-    
+
     if (unitsEl) {
         unitsEl.textContent = (units >= 0 ? '+' : '') + units.toFixed(2);
         unitsEl.className = 'stat-top ' + (units >= 0 ? 'win' : 'loss');
     }
-    
+
     if (roiEl) {
         roiEl.textContent = (units >= 0 ? '+' : '') + roi + '%';
         roiEl.className = 'stat-top ' + (units >= 0 ? 'win' : 'loss');
     }
-    
+
     if (countEl) {
-        if (currentSearch) {
+        if (currentSort.startsWith('league-')) {
+            const leagueName = currentSort === 'league-pl' ? 'Premier League' : 
+                               currentSort === 'league-cl' ? 'Champions League' : 'Europa League';
+            if (currentSearch) {
+                countEl.textContent = `Showing ${total} result${total !== 1 ? 's' : ''} for "${currentSearch}" in ${leagueName}`;
+            } else {
+                countEl.textContent = `Showing ${total} bets in ${leagueName}`;
+            }
+        } else if (currentSearch) {
             countEl.textContent = `Showing ${total} result${total !== 1 ? 's' : ''} for "${currentSearch}"`;
         } else {
             countEl.textContent = `Showing all ${total} bets`;
@@ -211,17 +235,23 @@ function updateStats(bets) {
 function renderBets() {
     const logGrid = document.getElementById('log-grid');
     if (!logGrid) return;
-    
+
     let filtered = filterBets(allBets, currentSearch);
     let sorted = sortBets(filtered, currentSort);
-    
+
     logGrid.innerHTML = sorted.length ? sorted.map(createHistoryCard).join('') : 
         '<p style="color:#555;text-align:center;padding:40px;">No bets found</p>';
-    
+
+    applyFadeIn('log-grid');
     updateStats(sorted);
 }
 
 function loadBetLog() {
+    const logGrid = document.getElementById('log-grid');
+    if (logGrid) {
+        logGrid.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
+    }
+
     fetch(BETLOG_URL + '?t=' + Date.now())
         .then(r => {
             if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -233,7 +263,10 @@ function loadBetLog() {
         })
         .catch(err => {
             console.error('Error loading betlog.csv:', err);
-            document.getElementById('stat-total').textContent = 'ERR';
+            const totalEl = document.getElementById('stat-total');
+            if (totalEl) totalEl.textContent = 'ERR';
+            const logGrid = document.getElementById('log-grid');
+            if (logGrid) logGrid.innerHTML = '<p style="color:#555;text-align:center;padding:40px;">Failed to load bets</p>';
         });
 }
 
@@ -241,20 +274,20 @@ function loadBetLog() {
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search-input');
     const sortSelect = document.getElementById('sort-select');
-    
+
     if (searchInput) {
         searchInput.addEventListener('input', function(e) {
             currentSearch = e.target.value.trim();
             renderBets();
         });
     }
-    
+
     if (sortSelect) {
         sortSelect.addEventListener('change', function(e) {
             currentSort = e.target.value;
             renderBets();
         });
     }
-    
+
     loadBetLog();
 });

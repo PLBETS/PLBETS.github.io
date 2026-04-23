@@ -9,10 +9,10 @@
     <style>
 .stats-bar {
     display: grid !important;
-    grid-template-columns: repeat(5, 1fr) !important;
+    grid-template-columns: repeat(6, 1fr) !important;
     gap: 12px !important;
     margin: 25px 0 35px !important;
-    max-width: 700px !important;
+    max-width: 850px !important;
 }
 .stat-item {
     background: #111 !important;
@@ -36,17 +36,21 @@
             </div>
         </div>
     </nav>
-    
+
     <div class="duel-bar">
         <a href="https://duel.com/r/HarryBarri" target="_blank">Best odds at Duel.com</a> — Higher payouts than traditional bookies
     </div>
-    
+
     <div class="container">
         <h1>BET LOG</h1>
         <p class="subtitle">Complete history of all bets</p>
-        
+
         <!-- STATS BAR -->
         <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-top">2025</div>
+                <div class="stat-bottom">SINCE</div>
+            </div>
             <div class="stat-item">
                 <div class="stat-top" id="stat-total">0</div>
                 <div class="stat-bottom">BETS</div>
@@ -68,7 +72,7 @@
                 <div class="stat-bottom">ROI</div>
             </div>
         </div>
-        
+
         <!-- SEARCH & SORT CONTROLS -->
         <div class="log-controls">
             <div class="search-box">
@@ -80,17 +84,20 @@
                     <option value="oldest">Oldest First</option>
                     <option value="odds-high">Highest Odds</option>
                     <option value="odds-low">Lowest Odds</option>
+                    <option value="league-pl">Premier League</option>
+                    <option value="league-cl">Champions League</option>
+                    <option value="league-el">Europa League</option>
                 </select>
             </div>
         </div>
         <div class="results-count" id="results-count">Showing all Bets</div>
-        
+
         <h2 style="color: #fff; font-size: 1.2em; margin: 20px 0 20px; letter-spacing: 1px;">BET HISTORY</h2>
         <div class="bets-grid" id="log-grid">
             <!-- Populated by JS -->
         </div>
     </div>
-    
+
     <footer>
         <div class="footer-social">
             <a href="https://www.tiktok.com/@plbetsnow" target="_blank">TikTok</a>
@@ -100,7 +107,18 @@
         <p>18+ | Gamble responsibly | Not financial advice</p>
         <p>This page contains affiliate links. I may receive commission if you sign up.</p>
     </footer>
-    
+
     <script src="betlog-stats.js"></script>
+    <script>
+        // Förhindra att interna nav-länkar öppnas i nya flikar
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.nav-links a, .logo a').forEach(function(link) {
+                link.removeAttribute('target');
+                link.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            });
+        });
+    </script>
 </body>
 </html>
