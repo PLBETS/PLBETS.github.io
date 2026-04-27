@@ -82,7 +82,7 @@ const teamLogos = {
     'Union Berlin': 'https://media.api-sports.io/football/teams/182.png',
     'Bodo Glimt': 'https://media.api-sports.io/football/teams/327.png',
     'Molde': 'https://media.api-sports.io/football/teams/328.png',
-    'Copenhagen': 'https://media.api-sports.io/football/teams/400.png'
+    'Copenhagen': 'https://media.api-sports.io/football/teams/400.png',
     'Braga': 'https://media.api-sports.io/football/teams/217.png',
     'Freiburg': 'https://media.api-sports.io/football/teams/160.png',
 };
